@@ -3,33 +3,46 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+var answers =[];
+var correct = [1, 2, 3, 4];
 $( document ).ready(function() {
     //console.log($('#q1 input:radio:checked.val()'));
-    answers=[1,2,3,4];
     $(".controls").on("click",function() {    
         countAnswer();
         countCorrect();
+        currentCorrect();
      });
 });
 
 function countAnswer(){
-    
-    answers[0] = Number($('#q1 input:radio:checked').val());
-    answers[1] = Number($('#q2 input:radio:checked').val());
-    answers[2] = Number($('#q3 input:radio:checked').val());
-    answers[3] = Number($('#q4 input:radio:checked').val());
+    answers[0] = parseInt($('#q1 input:radio:checked').val(),10);
+    answers[1] = parseInt($('#q2 input:radio:checked').val(),10);
+    answers[2] = parseInt($('#q3 input:radio:checked').val(),10);
+    answers[3] = parseInt($('#q4 input:radio:checked').val(),10);
     console.log(answers);
 }
 
 function countCorrect(){
     numberCorrect = 0;
-    correct= [1,2,3,4];
-    for (i = 0; i < correct.length; i++) { 
+    for (var i = 0; i < correct.length; i++) { 
         if(correct[i]=== answers[i]){
             numberCorrect = numberCorrect+1;
         }
     }
-    console.log(numberCorrect);
+    $('#disCount').text(numberCorrect+"/4");
+}
+
+
+function currentCorrect(){
+    var activeQuestion = $('.active>form').index('form');
+    if (answers[activeQuestion]===correct[activeQuestion]){
+        console.log(1);
+    } else {
+        setTimeout(function (){
+            console.log(0);
+        },5000);
+        
+    }
+    
 }
 

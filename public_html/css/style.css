@@ -9,7 +9,6 @@ html {
 header{
     text-align: center;
     background-color: transparent;
-    
 }
 
 body{
@@ -27,11 +26,15 @@ body{
 }
 
 .controls{
-    margin-top: 0.7em;
+    float: none;
     text-align: center;
 }
 
 form{
     text-align: left;
     float: none;
+}
+
+.count{
+    text-align: right;
 }
