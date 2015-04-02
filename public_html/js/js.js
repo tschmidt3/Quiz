@@ -10,10 +10,10 @@ var Q1 = new Question('What is NOT one of the four forces of flight?',
 ['Lift', 'Pressure', 'Thrust', 'Weight', 'Drag'], 2);
 var Q2 = new Question('What type of plane is a B-52?', 
 ['Bomber', 'Fighter', 'Glider', 'Cargo', 'Blimp'], 1);
-var Q3 = new Question('What is NOT one of the four forces of flight?', 
-['Lift', 'Pressure', 'Thrust', 'Weight', 'Drag'], 1);
-var Q4 = new Question('What is NOT one of the four forces of flight?', 
-['Lift', 'Pressure', 'Thrust', 'Weight', 'Drag'], 1);
+var Q3 = new Question('What was the first airplane to use laminar flow airfoils?', 
+['Messerschmitt Me 262', 'P-47 Thunderbolt', 'Supermarine Spitfire', 'P51 Mustang', 'Hawker Huricane'], 4);
+var Q4 = new Question('What is the first operational aircraft to be designed around stealth technology?', 
+['F-22 Raptor', 'F-35 Lightning', 'SR71', 'B-2 Spirit', 'F-117 Nighthawk'], 5);
 
 
 lQuestion = [Q1, Q2, Q3, Q4];
@@ -22,10 +22,13 @@ var answers =[];
 var correct = [Q1.correct, Q2.correct, Q3.correct, Q4.correct];
 $( document ).ready(function() {
     $('.glyphicon-chevron-left').on('click', function() {
+        countAnswer();
+        countCorrect();
         previousSlide();
     });
     $('.glyphicon-chevron-right').on('click', function() {
         countAnswer();
+        countCorrect();
         nextSlide();
     });
     $('.carousel-indicators li').on('click', function() {
@@ -52,26 +55,10 @@ function countCorrect(){
         }
     }
     $('#disCount').text(numberCorrect+"/4");
-}
-
-function currentCorrect(){
-    var activeQuestion = $('.active>form').index('form');
-    if (answers[activeQuestion]===correct[activeQuestion]){
-        //console.log(1);
-    } else {
-        setTimeout(function (){
-            //console.log(0);
-        },5000);  
-    }
+    $('mark').text(numberCorrect);
 }
 
 function nextSlide(){
-    //if slide is on the last slide and all answers are selected, provide score and feedback
-    //If slide is on last slide and all answers are not filled out, rotate like normal
-    //Score is on slide 5
-    countAnswer();
-    countCorrect();
-    currentCorrect();
     var activeSlide = $('.active>form').index('form');
     if (activeSlide === 3){
         if(allAnswered()){
@@ -87,9 +74,6 @@ function nextSlide(){
 }
 
 function previousSlide(){
-    countAnswer();
-    countCorrect();
-    currentCorrect();
     //if on slide 1 go to slide 4. Slide 5 is where the answers are shown
     var activeSlide = $('.active>form').index('form');
     if (activeSlide === 0){
@@ -102,7 +86,7 @@ function previousSlide(){
 function allAnswered(){
     //returns true if all items are answerd
     var ret = true;
-    for (var i = 0; i < 4; i++){
+    for (var i = 0; i < answers.length; i++){
         if (isNaN(answers[i])){
             ret = false;
             break;
@@ -113,5 +97,16 @@ function allAnswered(){
 
 function finalAnswer(){
     //all items to get sheet 5 to show the final answers
-    $('#disCount').text("a");
+    $('#disCount').text("");
+    var wrong = "";
+    for (var i =0; i < answers.length; i++){
+        if(answers[i]!==correct[i]){
+            var num = i+1;
+            wrong = wrong + num +", ";
+        }
+    }
+    wrong = wrong.substring(0,wrong.length-2);
+    if (numberCorrect <4){
+        $('#wrongSentence').text("Might want to check you answer on question(s) " + wrong );
+    }
 }
